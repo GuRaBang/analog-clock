@@ -1,3 +1,4 @@
 import Hand from "./Hand";
+import Marker from "./Marker";
 
-export { Hand };
+export { Hand, Marker };
