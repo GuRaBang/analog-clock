@@ -1,14 +1,14 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { Marker, Hand } from "./index";
+import Marker from "./Marker";
+import Hand from "./Hand";
 import { useInterval } from "../../hooks";
 import { getAngles } from "../../utils";
 
-function Clock() {
+function Clock({ ...props }) {
   const [date, setDate] = useState(new Date());
   const [hour, minute] = [date.getHours(), date.getMinutes()];
   const [hourAngle, minAngle, secAngle] = getAngles(date);
-
   useInterval(() => {
     setDate(new Date());
   }, 1000);
@@ -16,9 +16,9 @@ function Clock() {
   return (
     <>
       <span className="srOnly" id="time">
-        현재 시간은 {hour}:{minute} 입니다.
+        현재 시간은 {hour}시 {minute}분 입니다.
       </span>
-      <Face aria-labelledby="time">
+      <Face aria-labelledby="time" {...props}>
         <Hand angle={secAngle} type="sec" />
         <Hand angle={minAngle} type="min" />
         <Hand angle={hourAngle} type="hour" />
@@ -35,8 +35,10 @@ const Face = styled.div`
   position: relative;
   width: 500px;
   height: 500px;
-  background-color: var(--light-gray);
   border-radius: 50%;
+  clip-path: circle(52%);
+
+  background-color: var(--light-gray);
   box-shadow: 1.5px 1.5px 3px var(--navy), -5px -5px 5px var(--white);
   overflow: hidden;
 
