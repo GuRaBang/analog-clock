@@ -1,13 +1,37 @@
-import React from "react";
+import { MouseEvent, useState, useCallback } from "react";
 import styled from "styled-components";
-import { Clock } from "./components/Clock";
+import { Clock, Tooltip } from "./components";
 
 function App() {
+  const [active, setActive] = useState(false);
+  const [positionX, setPositionX] = useState<number>();
+  const [positionY, setPositionY] = useState<number>();
+
+  const activeTooltip = useCallback(() => {
+    setActive(true);
+  }, []);
+
+  const inactiveTooltip = useCallback(() => {
+    setActive(false);
+  }, []);
+
+  const changePosition = useCallback((e: MouseEvent<HTMLDivElement>) => {
+    setPositionX(e.clientX);
+    setPositionY(e.clientY);
+  }, []);
+
   return (
     <>
       <Header>Analog Clock</Header>
       <Main>
-        <Clock />
+        <Clock
+          onMouseOver={activeTooltip}
+          onMouseOut={inactiveTooltip}
+          onMouseMove={changePosition}
+        />
+        {active && (
+          <Tooltip positionX={positionX} positionY={positionY}></Tooltip>
+        )}
       </Main>
     </>
   );
