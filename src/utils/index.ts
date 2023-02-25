@@ -1,3 +1,4 @@
 import getAngles from "./getAngles";
+import getFormatTimeString from "./getFormatTimeString";
 
-export { getAngles };
+export { getAngles, getFormatTimeString };
