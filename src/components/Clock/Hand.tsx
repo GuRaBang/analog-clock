@@ -1,8 +1,13 @@
 import styled, { css } from "styled-components";
 
 interface HandProps {
-  angle: number;
-  type: "hour" | "min" | "sec";
+  angle?: number;
+  type: "hour" | "minute" | "second";
+}
+function Hand({ angle, type }: HandProps) {
+  return (
+    <StyledHand style={{ transform: `rotate(${angle}deg)` }} type={type} />
+  );
 }
 
 const stickStyles = {
@@ -12,13 +17,13 @@ const stickStyles = {
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
   `,
-  min: css`
+  minute: css`
     border-top: 130px solid transparent;
     border-bottom: 130px solid var(--orange);
     border-left: 3px solid transparent;
     border-right: 3px solid transparent;
   `,
-  sec: css`
+  second: css`
     border-top: 170px solid transparent;
     border-bottom: 170px solid var(--turquoise);
     border-left: 2px solid transparent;
@@ -26,11 +31,10 @@ const stickStyles = {
   `,
 };
 
-const Hand = styled.div<HandProps>`
+const StyledHand = styled.div<HandProps>`
   position: absolute;
   width: 100%;
   height: 100%;
-  transform: ${({ angle }) => `rotate(${angle}deg)`};
   &::before {
     position: absolute;
     bottom: 50%;

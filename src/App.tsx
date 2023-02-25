@@ -1,6 +1,8 @@
 import { MouseEvent, useState, useCallback } from "react";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { Clock, Tooltip } from "./components";
+import { currentTimeDataState } from "./recoil/globalState";
 
 function App() {
   const [active, setActive] = useState(false);
@@ -10,15 +12,15 @@ function App() {
   const activeTooltip = useCallback(() => {
     setActive(true);
   }, []);
-
   const inactiveTooltip = useCallback(() => {
     setActive(false);
   }, []);
-
-  const changePosition = useCallback((e: MouseEvent<HTMLDivElement>) => {
-    setPositionX(e.clientX);
-    setPositionY(e.clientY);
+  const moveTooltip = useCallback((e: MouseEvent<HTMLDivElement>) => {
+    setPositionX(e.pageX);
+    setPositionY(e.pageY);
   }, []);
+
+  const { formatTimeString } = useRecoilValue(currentTimeDataState);
 
   return (
     <>
@@ -27,10 +29,12 @@ function App() {
         <Clock
           onMouseOver={activeTooltip}
           onMouseOut={inactiveTooltip}
-          onMouseMove={changePosition}
+          onMouseMove={moveTooltip}
         />
         {active && (
-          <Tooltip positionX={positionX} positionY={positionY}></Tooltip>
+          <Tooltip positionX={positionX} positionY={positionY}>
+            {formatTimeString}
+          </Tooltip>
         )}
       </Main>
     </>
@@ -43,7 +47,7 @@ const Header = styled.header`
   font-size: xxx-large;
   font-weight: 900;
   color: var(--light-gray);
-  text-shadow: 1px 1px 2px var(--navy), -1px -1px 2px var(--white);
+  text-shadow: 1px 1px 2px var(--navy), -2px -2px 2px var(--white);
 `;
 
 const Main = styled.main`

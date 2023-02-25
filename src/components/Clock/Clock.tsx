@@ -1,16 +1,20 @@
-import { useState } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import Marker from "./Marker";
 import Hand from "./Hand";
+import {
+  currentDateState,
+  currentTimeDataState,
+} from "../../recoil/globalState";
 import { useInterval } from "../../hooks";
-import { getAngles } from "../../utils";
 
 function Clock({ ...props }) {
-  const [date, setDate] = useState(new Date());
-  const [hour, minute] = [date.getHours(), date.getMinutes()];
-  const [hourAngle, minAngle, secAngle] = getAngles(date);
+  const setCurrentDate = useSetRecoilState(currentDateState);
+  const { hour, minute, hourAngle, minuteAngle, secondAngle } =
+    useRecoilValue(currentTimeDataState);
+
   useInterval(() => {
-    setDate(new Date());
+    setCurrentDate(new Date());
   }, 1000);
 
   return (
@@ -19,8 +23,8 @@ function Clock({ ...props }) {
         현재 시간은 {hour}시 {minute}분 입니다.
       </span>
       <Face aria-labelledby="time" {...props}>
-        <Hand angle={secAngle} type="sec" />
-        <Hand angle={minAngle} type="min" />
+        <Hand angle={secondAngle} type="second" />
+        <Hand angle={minuteAngle} type="minute" />
         <Hand angle={hourAngle} type="hour" />
         {Array.from({ length: 12 }).map((_, idx) => (
           <Marker key={idx} hour={idx + 1} />

@@ -1,3 +1,4 @@
+import { memo } from "react";
 import styled from "styled-components";
 
 interface MarkerProps {
@@ -30,4 +31,4 @@ const StyledMarker = styled.div<MarkerProps>`
   }
 `;
 
-export default Marker;
+export default memo(Marker);

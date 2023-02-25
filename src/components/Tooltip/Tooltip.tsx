@@ -1,3 +1,4 @@
+import { memo } from "react";
 import styled from "styled-components";
 
 interface TooltipProps {
@@ -36,4 +37,4 @@ const StyledToolTip = styled.div<TooltipProps>`
   transition: width 2s, height 2s;
 `;
 
-export default Tooltip;
+export default memo(Tooltip);
