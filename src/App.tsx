@@ -1,45 +1,12 @@
-import { MouseEvent, useState, useCallback } from "react";
-import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { Clock, Tooltip } from "./components";
-import { currentTimeDataState } from "./recoil/globalState";
+import { ClockWithTooltip } from "./components";
 
 function App() {
-  const [active, setActive] = useState(false);
-  const [positionX, setPositionX] = useState<number>();
-  const [positionY, setPositionY] = useState<number>();
-
-  const activeTooltip = useCallback(() => {
-    setActive(true);
-  }, []);
-  const inactiveTooltip = useCallback(() => {
-    setActive(false);
-  }, []);
-  const moveTooltip = useCallback((e: MouseEvent<HTMLDivElement>) => {
-    setPositionX(e.pageX);
-    setPositionY(e.pageY);
-  }, []);
-
-  const { formatTimeString } = useRecoilValue(currentTimeDataState);
-
   return (
     <>
       <Header>Analog Clock</Header>
       <Main>
-        <Clock
-          onMouseOver={activeTooltip}
-          onMouseOut={inactiveTooltip}
-          onMouseMove={moveTooltip}
-        />
-        {active && (
-          <Tooltip
-            height={70}
-            positionX={positionX}
-            positionY={(positionY as number) - 70}
-          >
-            {formatTimeString}
-          </Tooltip>
-        )}
+        <ClockWithTooltip />
       </Main>
     </>
   );
