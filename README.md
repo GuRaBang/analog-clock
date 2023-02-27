@@ -24,19 +24,19 @@
 
 ## 🏃‍♀️ 프로젝트 실행
 
-### `1. clone repository`
+### 1. clone repository
 
 ```
 git clone https://github.com/GuRaBang/analog-clock.git
 ```
 
-### `2. install packages`
+### 2. install packages
 
 ```
 npm i
 ```
 
-### `3. run code`
+### 3. run code
 
 ```
 npm start
