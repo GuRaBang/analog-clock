@@ -32,7 +32,11 @@ function App() {
           onMouseMove={moveTooltip}
         />
         {active && (
-          <Tooltip positionX={positionX} positionY={positionY}>
+          <Tooltip
+            height={70}
+            positionX={positionX}
+            positionY={(positionY as number) - 70}
+          >
             {formatTimeString}
           </Tooltip>
         )}

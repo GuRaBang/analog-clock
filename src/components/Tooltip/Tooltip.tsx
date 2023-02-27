@@ -2,15 +2,28 @@ import { memo } from "react";
 import styled from "styled-components";
 
 interface TooltipProps {
+  height: number;
+  width?: number;
   positionX?: number;
   positionY?: number;
   [key: string]: unknown;
 }
 
-function Tooltip({ positionX, positionY, children, ...props }: TooltipProps) {
+function Tooltip({
+  height,
+  width,
+  positionX,
+  positionY,
+  children,
+  ...props
+}: TooltipProps) {
   return (
     <StyledToolTip
-      style={{ transform: `translate3d(${positionX}px, ${positionY}px, 0)` }}
+      height={height}
+      width={width}
+      style={{
+        transform: `translate3d(${positionX ?? 0}px, ${positionY ?? 0}px, 0)`,
+      }}
       role="tooltip"
       {...props}
     >
@@ -20,21 +33,21 @@ function Tooltip({ positionX, positionY, children, ...props }: TooltipProps) {
 }
 
 const StyledToolTip = styled.div<TooltipProps>`
+  height: ${({ height }) => `${height}px`};
+  line-height: ${({ height }) => `${height}px`};
+  width: ${({ width }) => (width !== undefined ? `${width}px` : "fit-content")};
   position: absolute;
-  top: -70px;
+  top: 0;
   left: 0;
-  width: 180px;
-  height: 70px;
+  padding: 0 20px;
   border-radius: 10px;
-  font-size: x-large;
+  font-size: 20px;
   font-weight: 600;
   text-align: center;
-  line-height: 70px;
   color: var(--white);
   background: var(--navy);
   letter-spacing: 0.2rem;
   pointer-events: none;
-  transition: width 2s, height 2s;
 `;
 
 export default memo(Tooltip);
