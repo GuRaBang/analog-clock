@@ -1,36 +1,27 @@
-import { memo } from "react";
+import { forwardRef } from "react";
 import styled from "styled-components";
 
 interface TooltipProps {
   height: number;
   width?: number;
-  positionX?: number;
-  positionY?: number;
   [key: string]: unknown;
 }
 
-function Tooltip({
-  height,
-  width,
-  positionX,
-  positionY,
-  children,
-  ...props
-}: TooltipProps) {
-  return (
-    <StyledToolTip
-      height={height}
-      width={width}
-      style={{
-        transform: `translate3d(${positionX ?? 0}px, ${positionY ?? 0}px, 0)`,
-      }}
-      role="tooltip"
-      {...props}
-    >
-      {children}
-    </StyledToolTip>
-  );
-}
+const Tooltip = forwardRef(
+  ({ height, width, children, ...props }: TooltipProps, ref) => {
+    return (
+      <StyledToolTip
+        ref={ref}
+        height={height}
+        width={width}
+        role="tooltip"
+        {...props}
+      >
+        {children}
+      </StyledToolTip>
+    );
+  }
+);
 
 const StyledToolTip = styled.div<TooltipProps>`
   height: ${({ height }) => `${height}px`};
@@ -50,4 +41,4 @@ const StyledToolTip = styled.div<TooltipProps>`
   pointer-events: none;
 `;
 
-export default memo(Tooltip);
+export default Tooltip;
